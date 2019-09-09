@@ -6,5 +6,5 @@ function angleDiff(a1, a2){
 
 function turn(i, direction){
 	boids[i].a += rotation*direction;
-	if(Math.abs(boids[i].a)>Math.PI){boids[i].a = Math.sign(boids[i].a)*(-Math.PI+(boids[i].a-Math.PI));}
+	if(Math.abs(boids[i].a)>Math.PI){boids[i].a = Math.sign(boids[i].a)*(-Math.PI+(Math.abs(boids[i].a)-Math.PI));}
 }

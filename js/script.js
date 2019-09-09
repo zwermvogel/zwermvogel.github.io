@@ -6,11 +6,12 @@ canvas.setAttribute("height", window.innerHeight);
 var target = {x:canvas.width/2,y:canvas.height/2};
 var boids = [];
 
-var size = 5;
-var count = 250;
+var size = 10;
+var count = 100;
 var speed = 5;
 var rotation = Math.PI/64;
-var viewDist = 25;
+var viewDist = 50;
+var viewAngle = Math.PI/2;
 
 for(var i = 0; i < count; i++){
 	boids.push({
@@ -28,7 +29,7 @@ canvas.onmousemove = function(e){
 function frame(){
 	steer();
 	move();
-	edges();
+	wrap();
 	draw();
 	requestAnimationFrame(frame);
 }
@@ -46,8 +47,10 @@ function steer(){
 			for(var z = 0; z < boids.length; z++){
 				if(i<z){
 					if(Math.hypot(boids[i].x-boids[z].x,boids[i].y-boids[z].y)<viewDist){
-						turn(i,Math.sign(angleDiff(boids[i].a,Math.atan2(boids[i].y-boids[z].y,boids[z].x-boids[i].x))));
-						turn(z,Math.sign(angleDiff(boids[z].a,Math.atan2(boids[z].y-boids[i].y,boids[i].x-boids[z].x))));
+						if(Math.abs(angleDiff(boids[i].a,Math.atan2(boids[i].y-boids[z].y,boids[z].x-boids[i].x)))<viewAngle){
+							turn(i,Math.sign(angleDiff(boids[i].a,Math.atan2(boids[i].y-boids[z].y,boids[z].x-boids[i].x))));
+							turn(z,Math.sign(angleDiff(boids[z].a,Math.atan2(boids[z].y-boids[i].y,boids[i].x-boids[z].x))));
+						}
 					}
 				}
 			}
@@ -58,11 +61,64 @@ function steer(){
 			for(var z = 0; z < boids.length; z++){
 				if(i<z){
 					if(Math.hypot(boids[i].x-boids[z].x,boids[i].y-boids[z].y)<viewDist){
-						turn(i,-Math.sign(angleDiff(boids[i].a,boids[z].a)));
-						turn(z,-Math.sign(angleDiff(boids[z].a,boids[i].a)));
+						if(Math.abs(angleDiff(boids[i].a,Math.atan2(boids[i].y-boids[z].y,boids[z].x-boids[i].x)))<viewAngle){
+							turn(i,-Math.sign(angleDiff(boids[i].a,boids[z].a)));
+							turn(z,-Math.sign(angleDiff(boids[z].a,boids[i].a)));
+						}
 					}
 				}
 			}
+		}
+
+	//center
+		for(var i = 0; i < boids.length; i++){
+			var center = {x:0, y:0, n:0};
+			for(var z = 0; z < boids.length; z++){
+				if(Math.hypot(boids[i].x-boids[z].x,boids[i].y-boids[z].y)<viewDist){
+					if(Math.abs(angleDiff(boids[i].a,Math.atan2(boids[i].y-boids[z].y,boids[z].x-boids[i].x)))<viewAngle){
+						center.x += boids[z].x;
+						center.y += boids[z].y;
+						center.n++;
+					}
+				}
+			}
+			center.x /= center.n;
+			center.y /= center.n;
+
+			if(center.n){
+				turn(i,-Math.sign(angleDiff(boids[i].a,Math.atan2(boids[i].y-center.y,center.x-boids[i].x))));
+			}
+		}
+
+	//edges
+		var angleOffset = 0;
+		for(var i = 0; i < boids.length; i++){
+			var x = boids[i].x+Math.cos(boids[i].a+angleOffset)*viewDist;
+			var y = boids[i].y-Math.sin(boids[i].a+angleOffset)*viewDist;
+			if(y<0){
+				angleOffset = -(angleOffset+Math.sign(angleOffset+rotation/2)*rotation);
+				i--;
+				continue;
+			}
+			if(y>canvas.height){
+				angleOffset = -(angleOffset+Math.sign(angleOffset+rotation/2)*rotation);
+				i--;
+				continue;
+			}
+			if(x<0){
+				angleOffset = -(angleOffset+Math.sign(angleOffset+rotation/2)*rotation);
+				i--;
+				continue;
+			}
+			if(x>canvas.width){
+				angleOffset = -(angleOffset+Math.sign(angleOffset+rotation/2)*rotation);
+				i--;
+				continue;
+			}
+
+			boids[i].a += angleOffset;
+			if(Math.abs(boids[i].a)>Math.PI){boids[i].a = Math.sign(boids[i].a)*(-Math.PI+(Math.abs(boids[i].a)-Math.PI));}
+			angleOffset = 0;
 		}
 }
 
@@ -73,7 +129,7 @@ function move(){
 	}
 }
 
-function edges(){
+function wrap(){
 	for(var i = 0; i < boids.length; i++){
 		if(boids[i].y<0){boids[i].y=canvas.height;}
 		if(boids[i].y>canvas.height){boids[i].y=0;}
@@ -82,11 +138,11 @@ function edges(){
 	}
 }
 
+ctx.strokeStyle = "grey";
+ctx.fillStyle = "grey";
 function draw(){
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 	for(var i = 0; i < boids.length; i++){
-		ctx.fillStyle = "grey";
-		if(i == 0){ctx.fillStyle = "white";}
 		ctx.beginPath();
 		ctx.moveTo(boids[i].x, boids[i].y);
 		ctx.lineTo(boids[i].x-Math.cos(boids[i].a+Math.PI/8)*size*1.25,boids[i].y+Math.sin(boids[i].a+Math.PI/8)*size*1.25);
