@@ -99,22 +99,7 @@ function steer(){
 			var x = boids[i].x+Math.cos(boids[i].a+angleOffset)*viewDist;
 			var y = boids[i].y-Math.sin(boids[i].a+angleOffset)*viewDist;
 			if(angleOffset>Math.PI){continue;}
-			if(y<0){
-				angleOffset = -(angleOffset+Math.sign(angleOffset+rotation/2)*rotation);
-				i--;
-				continue;
-			}
-			if(y>canvas.height){
-				angleOffset = -(angleOffset+Math.sign(angleOffset+rotation/2)*rotation);
-				i--;
-				continue;
-			}
-			if(x<0){
-				angleOffset = -(angleOffset+Math.sign(angleOffset+rotation/2)*rotation);
-				i--;
-				continue;
-			}
-			if(x>canvas.width){
+			if(y<0 || y>canvas.height || x<0 || x>canvas.width){
 				angleOffset = -(angleOffset+Math.sign(angleOffset+rotation/2)*rotation);
 				i--;
 				continue;
