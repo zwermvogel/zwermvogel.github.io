@@ -35,11 +35,11 @@ function frame(){
 
 function steer(){
 	//target
-		/*for(var i = 0; i < boids.length; i++){
+		for(var i = 0; i < boids.length; i++){
 			if(Math.abs(angleDiff(boids[i].a,Math.atan2(boids[i].y-target.y,target.x-boids[i].x)))>=rotation/2){
 				turn(i,-Math.sign(angleDiff(boids[i].a,Math.atan2(boids[i].y-target.y,target.x-boids[i].x))));
 			}
-		}*/
+		}
 
 	//follow
 		for(var i = 0; i < boids.length; i++){
