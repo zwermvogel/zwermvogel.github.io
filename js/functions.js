@@ -75,39 +75,48 @@ function initResize(){
 }
 
 function resizeResizers(){
-	document.getElementById("top").style.setProperty("height", canvas.getBoundingClientRect().top + "px", "important");
-	document.getElementById("top").style.setProperty("width", canvas.width + "px", "important");
-	document.getElementById("top").style.setProperty("left", canvas.getBoundingClientRect().left + "px", "important");
+	var top = document.getElementById("top");
+	var right = document.getElementById("right");
+	var bottom = document.getElementById("bottom");
+	var left = document.getElementById("left");
+	var topLeft = document.getElementById("topLeft");
+	var topRight = document.getElementById("topRight");
+	var bottomRight = document.getElementById("bottomRight");
+	var bottomLeft = document.getElementById("bottomLeft");
 
-	document.getElementById("right").style.setProperty("height", canvas.height + "px", "important");
-	document.getElementById("right").style.setProperty("width", (window.innerWidth-canvas.width-canvas.getBoundingClientRect().left) + "px", "important");
-	document.getElementById("right").style.setProperty("left", (canvas.width+canvas.getBoundingClientRect().left) + "px", "important");
-	document.getElementById("right").style.setProperty("top", canvas.getBoundingClientRect().top + "px", "important");
+	top.style.height = canvas.getBoundingClientRect().top + "px";
+	top.style.width = canvas.width + "px";
+	top.style.left = canvas.getBoundingClientRect().left + "px";
 
-	document.getElementById("bottom").style.setProperty("height", (window.innerHeight-canvas.height-canvas.getBoundingClientRect().top) + "px", "important");
-	document.getElementById("bottom").style.setProperty("width", canvas.width + "px", "important");
-	document.getElementById("bottom").style.setProperty("left", canvas.getBoundingClientRect().left + "px", "important");
-	document.getElementById("bottom").style.setProperty("top", (canvas.height+canvas.getBoundingClientRect().top) + "px", "important");
+	right.style.height = canvas.height + "px";
+	right.style.width = window.innerWidth-canvas.width-canvas.getBoundingClientRect().left + "px";
+	right.style.left = canvas.width+canvas.getBoundingClientRect().left + "px";
+	right.style.top = canvas.getBoundingClientRect().top + "px";
 
-	document.getElementById("left").style.setProperty("height", canvas.height + "px", "important");
-	document.getElementById("left").style.setProperty("width", canvas.getBoundingClientRect().left + "px", "important");
-	document.getElementById("left").style.setProperty("top", canvas.getBoundingClientRect().top + "px", "important");
+	bottom.style.height = window.innerHeight-canvas.height-canvas.getBoundingClientRect().top + "px";
+	bottom.style.width = canvas.width + "px";
+	bottom.style.left = canvas.getBoundingClientRect().left + "px";
+	bottom.style.top = canvas.height+canvas.getBoundingClientRect().top + "px";
 
-	document.getElementById("topLeft").style.setProperty("height", canvas.getBoundingClientRect().top + "px", "important");
-	document.getElementById("topLeft").style.setProperty("width", canvas.getBoundingClientRect().left + "px", "important");
+	left.style.height = canvas.height + "px";
+	left.style.width = canvas.getBoundingClientRect().left + "px";
+	left.style.top = canvas.getBoundingClientRect().top + "px";
 
-	document.getElementById("topRight").style.setProperty("height", canvas.getBoundingClientRect().top + "px", "important");
-	document.getElementById("topRight").style.setProperty("width", (window.innerWidth-canvas.width-canvas.getBoundingClientRect().left) + "px", "important");
-	document.getElementById("topRight").style.setProperty("left", (canvas.width+canvas.getBoundingClientRect().left) + "px", "important");
+	topLeft.style.height = canvas.getBoundingClientRect().top + "px";
+	topLeft.style.width = canvas.getBoundingClientRect().left + "px";
 
-	document.getElementById("bottomRight").style.setProperty("height", (window.innerHeight-canvas.height-canvas.getBoundingClientRect().top) + "px", "important");
-	document.getElementById("bottomRight").style.setProperty("width", (window.innerWidth-canvas.width-canvas.getBoundingClientRect().left) + "px", "important");
-	document.getElementById("bottomRight").style.setProperty("left", (canvas.width+canvas.getBoundingClientRect().left) + "px", "important");
-	document.getElementById("bottomRight").style.setProperty("top", (canvas.height+canvas.getBoundingClientRect().top) + "px", "important");
+	topRight.style.height = canvas.getBoundingClientRect().top + "px";
+	topRight.style.width = window.innerWidth-canvas.width-canvas.getBoundingClientRect().left + "px";
+	topRight.style.left = canvas.width+canvas.getBoundingClientRect().left + "px";
 
-	document.getElementById("bottomLeft").style.setProperty("height", (window.innerHeight-canvas.height-canvas.getBoundingClientRect().top) + "px", "important");
-	document.getElementById("bottomLeft").style.setProperty("width", canvas.getBoundingClientRect().left + "px", "important");
-	document.getElementById("bottomLeft").style.setProperty("top", (canvas.height+canvas.getBoundingClientRect().top) + "px", "important");
+	bottomRight.style.height = window.innerHeight-canvas.height-canvas.getBoundingClientRect().top + "px";
+	bottomRight.style.width = window.innerWidth-canvas.width-canvas.getBoundingClientRect().left + "px";
+	bottomRight.style.left = canvas.width+canvas.getBoundingClientRect().left + "px";
+	bottomRight.style.top = canvas.height+canvas.getBoundingClientRect().top + "px";
+
+	bottomLeft.style.height = window.innerHeight-canvas.height-canvas.getBoundingClientRect().top + "px";
+	bottomLeft.style.width = canvas.getBoundingClientRect().left + "px";
+	bottomLeft.style.top = canvas.height+canvas.getBoundingClientRect().top + "px";
 }
 
 initResize();

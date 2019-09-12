@@ -1,7 +1,11 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
-canvas.setAttribute("width", window.innerWidth-50);
-canvas.setAttribute("height", window.innerHeight-50);
+canvas.setAttribute("width", Math.min(window.innerWidth,window.innerHeight)-50);
+canvas.setAttribute("height", Math.min(window.innerWidth,window.innerHeight)-50);
+canvas.style.top = (window.innerHeight-Math.min(window.innerWidth,window.innerHeight)+50)/2 + "px";
+canvas.style.left = (window.innerWidth-Math.min(window.innerWidth,window.innerHeight)+50)/2 + "px";
+
+resizeResizers();
 
 var target = {x:canvas.width/2,y:canvas.height/2};
 var boids = [];
@@ -35,47 +39,51 @@ function frame(){
 
 function steer(){
 	//target
-		for(var i = 0; i < boids.length; i++){
+		/*for(var i = 0; i < boids.length; i++){
 			if(Math.abs(angleDiff(boids[i].a,Math.atan2(boids[i].y-target.y,target.x-boids[i].x)))>=rotation/2){
 				turn(i,-Math.sign(angleDiff(boids[i].a,Math.atan2(boids[i].y-target.y,target.x-boids[i].x))));
 			}
-		}
+		}*/
 
 	//follow
 		for(var i = 0; i < boids.length; i++){
+			var average = {a:0, n:0};
 			for(var z = 0; z < boids.length; z++){
-				if(i<z){
+				if(i!==z){
 					if(Math.hypot(boids[i].x-boids[z].x,boids[i].y-boids[z].y)<viewDist){
 						if(Math.abs(angleDiff(boids[i].a,Math.atan2(boids[i].y-boids[z].y,boids[z].x-boids[i].x)))<viewAngle){
-							if(rotation/2<Math.abs(angleDiff(boids[i].a,boids[z].a)) && Math.abs(angleDiff(boids[i].a,boids[z].a))<viewAngle){
-								turn(i,-Math.sign(angleDiff(boids[i].a,boids[z].a)));
-								turn(z,-Math.sign(angleDiff(boids[z].a,boids[i].a)));
-							}
+							average.a += boids[z].a;
+							average.n++;
 						}
 					}
 				}
+			}
+			average.a /= average.n;
+
+			if(average.n){
+				turn(i,-Math.sign(angleDiff(boids[i].a,average.a)));
 			}
 		}
 
 	//center
 		for(var i = 0; i < boids.length; i++){
-			var center = {x:0, y:0, n:0};
+			var average = {x:0, y:0, n:0};
 			for(var z = 0; z < boids.length; z++){
-				if(i !== z){
+				if(i!==z){
 					if(Math.hypot(boids[i].x-boids[z].x,boids[i].y-boids[z].y)<viewDist){
 						if(Math.abs(angleDiff(boids[i].a,Math.atan2(boids[i].y-boids[z].y,boids[z].x-boids[i].x)))<viewAngle){
-							center.x += boids[z].x;
-							center.y += boids[z].y;
-							center.n++;
+							average.x += boids[z].x;
+							average.y += boids[z].y;
+							average.n++;
 						}
 					}
 				}
 			}
-			center.x /= center.n;
-			center.y /= center.n;
+			average.x /= average.n;
+			average.y /= average.n;
 
-			if(center.n){
-				turn(i,-Math.sign(angleDiff(boids[i].a,Math.atan2(boids[i].y-center.y,center.x-boids[i].x))));
+			if(average.n){
+				turn(i,-Math.sign(angleDiff(boids[i].a,Math.atan2(boids[i].y-average.y,average.x-boids[i].x))));
 			}
 		}
 
