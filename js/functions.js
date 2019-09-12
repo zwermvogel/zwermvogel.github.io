@@ -17,31 +17,39 @@ function initResize(){
 
 	for(var i = 0; i < resizers.length; i++){
 		const currentResizer = resizers[i];
-		currentResizer.addEventListener("mousedown", function(e) {
+		currentResizer.addEventListener("mousedown", function(e){click(e,e.clientX,e.clientY)});
+		currentResizer.addEventListener("touchstart", function(e){click(e,e.touches[0].clientX,e.touches[0].clientY);});
+
+		function click(e,x,y){
 			e.preventDefault();
 			original.width = canvas.width;
 			original.height = canvas.height;
 			original.left = canvas.getBoundingClientRect().left;
 			original.top = canvas.getBoundingClientRect().top;
-			original.mouse.x = e.clientX;
-			original.mouse.y = e.clientY;
+			original.mouse.x = x;
+			original.mouse.y = y;
 
-			window.addEventListener("mousemove", resize);
+			window.addEventListener("mousemove", PcResize);
 			window.addEventListener("mouseup", stopResize);
-		});
+			window.addEventListener("touchmove", MobileResize);
+			window.addEventListener("touchend", stopResize);
+		}
 
-		function resize(e){
+		function PcResize(e){resize(e.clientX,e.clientY);}
+		function MobileResize(e){resize(e.touches[0].clientX,e.touches[0].clientY);}
+
+		function resize(x,y){
 			if(currentResizer.classList.contains("top")){
-				var height = original.height - (e.clientY - original.mouse.y);
+				var height = original.height - (y - original.mouse.y);
 				if(height>100){
 					canvas.setAttribute("height", height);
-					canvas.style.top = original.top + (e.clientY - original.mouse.y) + "px";
+					canvas.style.top = original.top + (y - original.mouse.y) + "px";
 					draw();
 					resizeResizers();
 				}
 			}
 			if(currentResizer.classList.contains("bottom")){
-				var height = original.height + (e.clientY - original.mouse.y);
+				var height = original.height + (y - original.mouse.y);
 				if(height>100){
 					canvas.setAttribute("height", height);
 					draw();
@@ -49,16 +57,16 @@ function initResize(){
 				}
 			}
 			if(currentResizer.classList.contains("left")){
-				var width = original.width - (e.clientX - original.mouse.x);
+				var width = original.width - (x - original.mouse.x);
 				if(width>100){
 					canvas.setAttribute("width", width);
-					canvas.style.left = original.left + (e.clientX - original.mouse.x) + "px";
+					canvas.style.left = original.left + (x - original.mouse.x) + "px";
 					draw();
 					resizeResizers();
 				}
 			}
 			if(currentResizer.classList.contains("right")){
-				var width = original.width + (e.clientX - original.mouse.x);
+				var width = original.width + (x - original.mouse.x);
 				if(width>100){
 					canvas.setAttribute("width", width);
 					draw();
@@ -68,8 +76,10 @@ function initResize(){
 		}
 
 		function stopResize(){
-			window.removeEventListener("mousemove", resize);
+			window.removeEventListener("mousemove", PcResize);
 			window.removeEventListener("mouseup", stopResize);
+			window.removeEventListener("touchmove", MobileResize);
+			window.removeEventListener("touchend", stopResize);
 		}
 	}
 }
