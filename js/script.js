@@ -11,7 +11,7 @@ var target = {x:canvas.width/2,y:canvas.height/2};
 var boids = [];
 
 var size = 10;
-var count = 100;
+var count = 0;
 var speed = 5;
 var rotation = Math.PI/64;
 var viewDist = 50;
@@ -27,7 +27,7 @@ for(var i = 0; i < count; i++){
 }
 
 canvas.onmousemove = function(e){
-	target = {x:e.clientX, y:e.clientY};
+	target = {x:e.clientX-canvas.getBoundingClientRect().left, y:e.clientY-canvas.getBoundingClientRect().top};
 }
 
 function frame(){

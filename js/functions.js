@@ -9,6 +9,45 @@ function turn(i, direction){
 	if(Math.abs(boids[i].a)>Math.PI){boids[i].a = Math.sign(boids[i].a)*(-Math.PI+(Math.abs(boids[i].a)-Math.PI));}
 }
 
+canvas.addEventListener("mousedown", function(e){canvasClick(e,e.clientX,e.clientY)});
+canvas.addEventListener("touchstart", function(e){canvasClick(e,e.touches[0].clientX,e.touches[0].clientY)});
+
+function canvasClick(e,x,y){
+	e.preventDefault();
+	boids.push({
+		x:x-canvas.getBoundingClientRect().left,
+		y:y-canvas.getBoundingClientRect().top,
+		a:Math.floor(Math.random()*360)/180*Math.PI-Math.PI,
+		s:speed
+	});
+
+	canvas.addEventListener("mousemove", PcSpawn);
+	window.addEventListener("mouseup", stopSpawn);
+	canvas.addEventListener("touchmove", MobileSpawn);
+	canvas.addEventListener("touchend", stopSpawn);
+}
+
+function PcSpawn(e){spawn(e.clientX,e.clientY);}
+function MobileSpawn(e){spawn(e.touches[0].clientX,e.touches[0].clientY);}
+
+function spawn(x,y){
+	boids.push({
+		x:x-canvas.getBoundingClientRect().left,
+		y:y-canvas.getBoundingClientRect().top,
+		a:Math.atan2(target.y-y+canvas.getBoundingClientRect().top, x-target.x-canvas.getBoundingClientRect().left),
+		s:speed
+	});
+
+	target = {x:x-canvas.getBoundingClientRect().left, y:y-canvas.getBoundingClientRect().top};
+}
+
+function stopSpawn(){
+	canvas.removeEventListener("mousemove", PcSpawn);
+	window.removeEventListener("mouseup", stopSpawn);
+	canvas.removeEventListener("touchmove", MobileSpawn);
+	window.removeEventListener("touchend", stopSpawn);
+}
+
 function initResize(){
 	var canvas = document.getElementById("canvas");
 	var resizers = document.getElementsByClassName("resizer");
@@ -17,10 +56,10 @@ function initResize(){
 
 	for(var i = 0; i < resizers.length; i++){
 		const currentResizer = resizers[i];
-		currentResizer.addEventListener("mousedown", function(e){click(e,e.clientX,e.clientY)});
-		currentResizer.addEventListener("touchstart", function(e){click(e,e.touches[0].clientX,e.touches[0].clientY);});
+		currentResizer.addEventListener("mousedown", function(e){resizeClick(e,e.clientX,e.clientY)});
+		currentResizer.addEventListener("touchstart", function(e){resizeClick(e,e.touches[0].clientX,e.touches[0].clientY);});
 
-		function click(e,x,y){
+		function resizeClick(e,x,y){
 			e.preventDefault();
 			original.width = canvas.width;
 			original.height = canvas.height;
