@@ -15,6 +15,33 @@
 		<div class="resizer bottom" id="bottom" style="cursor:n-resize"></div>
 		<div class="resizer bottom left" id="bottomLeft" style="cursor:ne-resize"></div>
 		<div class="resizer left" id="left" style="cursor:w-resize"></div>
+
+		<div id="settings">
+			<label class="container" for="steerTargetCheckbox">Target
+		        <input type="checkbox" id="steerTargetCheckbox" onchange="toggle('steerTarget')"/>
+		        <span class="checkmark"></span>
+		    </label>
+		    <br>
+		    <label class="container" for="steerFollowCheckbox">Follow
+		        <input type="checkbox" id="steerFollowCheckbox" onchange="toggle('steerFollow')"/>
+		        <span class="checkmark"></span>
+		    </label>
+		    <br>
+		    <label class="container" for="steerCenterCheckbox">Center
+		        <input type="checkbox" id="steerCenterCheckbox" onchange="toggle('steerCenter')"/>
+		        <span class="checkmark"></span>
+		    </label>
+		    <br>
+		    <label class="container" for="steerAvoidCheckbox">Avoid
+		        <input type="checkbox" id="steerAvoidCheckbox" onchange="toggle('steerAvoid')"/>
+		        <span class="checkmark"></span>
+		    </label>
+		    <br>
+		    <label class="container" for="steerEdgesCheckbox">Edges
+		        <input type="checkbox" id="steerEdgesCheckbox" onchange="toggle('steerEdges')"/>
+		        <span class="checkmark"></span>
+		    </label>
+		</div>
 	</body>
 	<script src="js/functions.js"></script>
 	<script src="js/script.js"></script>

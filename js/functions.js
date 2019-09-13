@@ -1,3 +1,8 @@
+function toggle(variable){
+	window[variable] = !window[variable];
+    document.getElementById(variable + "Checkbox").checked = window[variable];
+}
+
 function angleDiff(a1, a2){
 	var sign = a1 > a2 ? 1 : -1;
 	var angle = a1 - a2;
@@ -27,10 +32,10 @@ function canvasClick(e,x,y){
 	canvas.addEventListener("touchend", stopSpawn);
 }
 
-function PcSpawn(e){spawn(e.clientX,e.clientY);}
-function MobileSpawn(e){spawn(e.touches[0].clientX,e.touches[0].clientY);}
+function PcSpawn(e){dragSpawn(e.clientX,e.clientY);}
+function MobileSpawn(e){dragSpawn(e.touches[0].clientX,e.touches[0].clientY);}
 
-function spawn(x,y){
+function dragSpawn(x,y){
 	boids.push({
 		x:x-canvas.getBoundingClientRect().left,
 		y:y-canvas.getBoundingClientRect().top,
