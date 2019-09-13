@@ -42,8 +42,6 @@ function dragSpawn(x,y){
 		a:Math.floor(Math.random()*360)/180*Math.PI-Math.PI,
 		s:speed
 	});
-
-	target = {x:x-canvas.getBoundingClientRect().left, y:y-canvas.getBoundingClientRect().top};
 }
 
 function stopSpawn(){

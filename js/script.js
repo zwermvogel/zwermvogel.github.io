@@ -35,10 +35,9 @@ function spawn(){
 	}
 }
 
-canvas.onmousemove = function(e){
-	target = {x:e.clientX-canvas.getBoundingClientRect().left, y:e.clientY-canvas.getBoundingClientRect().top};
-
-}
+canvas.onmousemove = function(e){target = {x:e.clientX-canvas.getBoundingClientRect().left, y:e.clientY-canvas.getBoundingClientRect().top};}
+canvas.ontouchmove = function(e){target = {x:e.clientX-canvas.getBoundingClientRect().left, y:e.clientY-canvas.getBoundingClientRect().top};}
+canvas.ontouchstart = function(e){target = {x:e.clientX-canvas.getBoundingClientRect().left, y:e.clientY-canvas.getBoundingClientRect().top};}
 
 function frame(){
 	findDirection();
