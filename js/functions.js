@@ -34,7 +34,7 @@ function spawn(x,y){
 	boids.push({
 		x:x-canvas.getBoundingClientRect().left,
 		y:y-canvas.getBoundingClientRect().top,
-		a:Math.atan2(target.y-y+canvas.getBoundingClientRect().top, x-target.x-canvas.getBoundingClientRect().left),
+		a:Math.floor(Math.random()*360)/180*Math.PI-Math.PI,
 		s:speed
 	});
 
