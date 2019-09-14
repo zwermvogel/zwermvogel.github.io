@@ -3,6 +3,30 @@ function toggle(variable){
     document.getElementById(variable + "Checkbox").checked = window[variable];
 }
 
+function number(variable){
+	window[variable] = Number(document.getElementById(variable).value);
+    if(variable == "count"){
+    	if(count<boids.length){
+    		boids.length = count;
+    	}
+    	else{
+    		for(var i = 0; i < count-boids.length; i++){
+    			boids.push({
+					x:Math.floor(Math.random()*canvas.width),
+					y:Math.floor(Math.random()*canvas.height),
+					a:Math.floor(Math.random()*360)/180*Math.PI-Math.PI,
+					s:speed
+				});
+    		}
+    	}
+    }
+    if(variable == "speed"){
+	    for(var i = 0; i < boids.length; i++){
+			boids[i].s = speed;
+		}
+	}
+}
+
 function angleDiff(a1, a2){
 	var sign = a1 > a2 ? 1 : -1;
 	var angle = a1 - a2;
@@ -25,6 +49,7 @@ function canvasClick(e,x,y){
 		a:Math.floor(Math.random()*360)/180*Math.PI-Math.PI,
 		s:speed
 	});
+	document.getElementById("count").value = boids.length;
 
 	canvas.addEventListener("mousemove", PcSpawn);
 	window.addEventListener("mouseup", stopSpawn);
@@ -37,11 +62,12 @@ function MobileSpawn(e){dragSpawn(e.touches[0].clientX,e.touches[0].clientY);}
 
 function dragSpawn(x,y){
 	boids.push({
-		x:x-canvas.getBoundingClientRect().left,
-		y:y-canvas.getBoundingClientRect().top,
+		x:Math.floor(Math.random()*canvas.width),
+		y:Math.floor(Math.random()*canvas.height),
 		a:Math.floor(Math.random()*360)/180*Math.PI-Math.PI,
 		s:speed
 	});
+	document.getElementById("count").value = boids.length;
 }
 
 function stopSpawn(){

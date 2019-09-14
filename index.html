@@ -17,6 +17,12 @@
 		<div class="resizer left" id="left" style="cursor:w-resize"></div>
 
 		<div id="settings">
+			<label class="inputContainer">Count:<div class="input"><input type="number" value="1" id="count" oninput="number('count')"></div>
+	        </label>
+	        <br>
+	        <label class="inputContainer">Speed:<div class="input"><input type="number" value="5" id="speed" oninput="number('speed')"></div>
+	        </label>
+	        <br><br>
 			<label class="container" for="steerTargetCheckbox">Target
 		        <input type="checkbox" id="steerTargetCheckbox" onchange="toggle('steerTarget')"/>
 		        <span class="checkmark"></span>

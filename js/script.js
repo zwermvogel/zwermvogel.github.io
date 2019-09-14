@@ -23,17 +23,15 @@ var rotation = Math.PI/64;
 var viewAngle = Math.PI/2;
 var size = 10;
 
-function spawn(){
-	boids = [];
-	for(var i = 0; i < count; i++){
-		boids.push({
-			x:Math.floor(Math.random()*canvas.width),
-			y:Math.floor(Math.random()*canvas.height),
-			a:Math.floor(Math.random()*360)/180*Math.PI-Math.PI,
-			s:speed
-		});
-	}
+for(var i = 0; i < count; i++){
+	boids.push({
+		x:Math.floor(Math.random()*canvas.width),
+		y:Math.floor(Math.random()*canvas.height),
+		a:Math.floor(Math.random()*360)/180*Math.PI-Math.PI,
+		s:speed
+	});
 }
+document.getElementById("count").value = boids.length;
 
 canvas.onmousemove = function(e){target = {x:e.clientX-canvas.getBoundingClientRect().left, y:e.clientY-canvas.getBoundingClientRect().top};}
 canvas.ontouchmove = function(e){target = {x:e.touches[0].clientX-canvas.getBoundingClientRect().left, y:e.touches[0].clientY-canvas.getBoundingClientRect().top};}
@@ -180,5 +178,4 @@ function draw(){
 	}
 }
 
-spawn();
 frame();
