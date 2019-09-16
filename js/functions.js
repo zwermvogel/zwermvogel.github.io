@@ -62,8 +62,8 @@ function MobileSpawn(e){dragSpawn(e.touches[0].clientX,e.touches[0].clientY);}
 
 function dragSpawn(x,y){
 	boids.push({
-		x:x,
-		y:y,
+		x:x-canvas.getBoundingClientRect().left,
+		y:y-canvas.getBoundingClientRect().top,
 		a:Math.floor(Math.random()*360)/180*Math.PI-Math.PI,
 		s:speed
 	});
