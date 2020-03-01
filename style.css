@@ -9,8 +9,9 @@ body{
 #canvas{
 	position: absolute;
 	background-color: black;
-	outline: 1px solid white;
-	z-index: 2;
+	border: 1px solid white;
+	border-radius: 3px;
+    z-index: 2;
 }
 
 .resizer{
@@ -42,6 +43,7 @@ body{
     width: 10px;
     background: black;
     border: 1px solid white;
+    border-radius: 3px;
 }
 .container .checkmark:after{
     content: "";
@@ -72,6 +74,7 @@ input[type='checkbox']{
 }
 input[type=number]{
     border: 1px solid white;
+    border-radius: 3px;
     background-color: black;
     color: white;
     outline: none;

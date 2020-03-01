@@ -6,19 +6,15 @@ function toggle(variable){
 function number(variable){
 	window[variable] = Number(document.getElementById(variable).value);
     if(variable == "count"){
-    	if(count<boids.length){
-    		boids.length = count;
-    	}
-    	else{
-    		for(var i = 0; i < count-boids.length; i++){
-    			boids.push({
-					x:Math.floor(Math.random()*canvas.width),
-					y:Math.floor(Math.random()*canvas.height),
-					a:Math.floor(Math.random()*360)/180*Math.PI-Math.PI,
-					s:speed
-				});
-    		}
-    	}
+		boids = [];
+		for(var i = 0; i < count; i++){
+			boids.push({
+				x:Math.floor(Math.random()*canvas.width),
+				y:Math.floor(Math.random()*canvas.height),
+				a:Math.floor(Math.random()*360)/180*Math.PI-Math.PI,
+				s:speed
+			});
+		}
     }
     if(variable == "speed"){
 	    for(var i = 0; i < boids.length; i++){
